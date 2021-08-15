@@ -1,0 +1,11 @@
+env: standard
+runtime: nodejs14
+service: default
+instance_class: F1
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
+automatic_scaling:
+  min_idle_instances: 1
+  min_instances: 1

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { AppAuthContext } from './App'
+import { AppAuthContext } from '../App'
 
 interface stateType {
   from: { pathname: string }
@@ -22,7 +22,7 @@ const Login: React.FunctionComponent = () => {
   }
 
   return (
-    <>
+    <div>
       <form onSubmit={(e) => submit(e)}>
         <label htmlFor="fname">First name:</label>
         <input
@@ -42,7 +42,7 @@ const Login: React.FunctionComponent = () => {
         />
         <input type="submit" value="Entrar" />
       </form>
-    </>
+    </div>
   )
 }
 

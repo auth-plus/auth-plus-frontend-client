@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import Layout from '../components/atom/Layout'
 
-import Home from './Home'
-import Login from './Login'
+import Home from './Home/Home'
+import Login from './Login/Login'
 
 interface User {
   id: string
@@ -46,7 +47,9 @@ export const App: React.FunctionComponent = () => {
           path="/"
           element={
             <RequireAuth>
-              <Home />
+              <Layout>
+                <Home />
+              </Layout>
             </RequireAuth>
           }
         />

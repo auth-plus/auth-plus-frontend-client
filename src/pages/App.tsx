@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from '../components/atom/Layout'
+import { readSessionStorage, writeSessionStorage } from '../helpers/sessionStorage'
+import { User } from '../interfaces/user'
 
 import Home from './Home/Home'
 import Login from './Login/Login'
 
-interface User {
-  id: string
-}
-
 interface AppCtxt {
   user: User | null
-  signin: (email: string, password: string, callback: VoidFunction) => void
-  signout: (callback: VoidFunction) => void
+  signIn: (email: string, password: string, callback: VoidFunction) => void
+  signOut: () => void
 }
 
 export const AppAuthContext = React.createContext<AppCtxt>(null!)
@@ -27,19 +25,21 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
 }
 
 export const App: React.FunctionComponent = () => {
-  const [user, setUser] = useState<User | null>(null)
-  let signin = (email: string, password: string, callback: VoidFunction) => {
+  const initUSerState = readSessionStorage<User>("user")
+  const [user, setUser] = useState<User | null>(initUSerState)
+  const signIn = (email: string, password: string, callback: VoidFunction) => {
     if (email === 'a' && password === 'a') {
       setUser({ id: 'user_id_hash' })
+      writeSessionStorage<User>({ id: 'user_id_hash' }, 'user')
     }
     callback()
   }
 
-  let signout = (callback: VoidFunction) => {
+  const signOut = () => {
+    writeSessionStorage(null, 'user')
     setUser(null)
-    callback()
   }
-  const initState: AppCtxt = { user, signin, signout }
+  const initState: AppCtxt = { user, signIn, signOut }
   return (
     <AppAuthContext.Provider value={initState}>
       <Routes>

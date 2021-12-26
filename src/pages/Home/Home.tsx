@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
-import { startFCM } from "../../config/firebase";
+import React from "react";
 
 export const Home: React.FunctionComponent = () => {
   
-  useEffect(() => {
-    startFCM()
-  });
-
   return (
     <>
       <p>HOME</p>

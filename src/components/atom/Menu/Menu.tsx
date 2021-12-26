@@ -6,14 +6,15 @@ import {
   MenuItem,
   MenuList,
   Paper,
-  Typography,
 } from '@mui/material'
-import React, { useState } from 'react'
-import ContentCut from '@mui/icons-material/ContentCut'
+import React, { useContext, useState } from 'react'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MenuIcon from '@mui/icons-material/Menu'
+import { AppAuthContext } from '../../../pages/App';
 
 export const Menu: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false)
+  const auth = useContext(AppAuthContext)
   return (
     <nav>
       <IconButton
@@ -33,14 +34,13 @@ export const Menu: React.FunctionComponent = () => {
       >
         <Paper sx={{ width: 320, maxWidth: '100%' }}>
           <MenuList>
-            <MenuItem>
+            <MenuItem onClick={()=>{
+              auth.signOut()
+            }} >
               <ListItemIcon>
-                <ContentCut fontSize="small" />
+                <ExitToAppIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Cut</ListItemText>
-              <Typography variant="body2" color="text.secondary">
-                ⌘X
-              </Typography>
+              <ListItemText>SignOut</ListItemText>
             </MenuItem>
           </MenuList>
         </Paper>

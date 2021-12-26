@@ -18,7 +18,7 @@ const Login: React.FunctionComponent = () => {
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    auth.signin(email, password, () => navigate(from, { replace: true }))
+    auth.signIn(email, password, () => navigate(from, { replace: true }))
   }
 
   return (

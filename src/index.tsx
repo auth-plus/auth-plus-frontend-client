@@ -4,6 +4,7 @@ import App from './pages/App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import { register } from './serviceWorkerRegistration';
+import "./index.scss"
 
 ReactDOM.render(
   <React.StrictMode>

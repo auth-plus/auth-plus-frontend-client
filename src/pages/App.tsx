@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from '../components/atom/Layout'
-import { readSessionStorage, writeSessionStorage } from '../helpers/sessionStorage'
+import {
+  readSessionStorage,
+  writeSessionStorage,
+} from '../helpers/sessionStorage'
 import { User } from '../interfaces/user'
 
 import Home from './Home/Home'
@@ -25,21 +28,26 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
 }
 
 export const App: React.FunctionComponent = () => {
-  const initUSerState = readSessionStorage<User>("user")
+  const initUSerState = readSessionStorage<User>('user')
   const [user, setUser] = useState<User | null>(initUSerState)
   const signIn = (email: string, password: string, callback: VoidFunction) => {
     if (email === 'a' && password === 'a') {
       setUser({ id: 'user_id_hash' })
       writeSessionStorage<User>({ id: 'user_id_hash' }, 'user')
+      callback()
     }
-    callback()
+    throw new Error("wrong credential")
   }
 
   const signOut = () => {
     writeSessionStorage(null, 'user')
     setUser(null)
   }
-  const initState: AppCtxt = { user, signIn, signOut }
+  const initState: AppCtxt = {
+    user,
+    signIn,
+    signOut,
+  }
   return (
     <AppAuthContext.Provider value={initState}>
       <Routes>

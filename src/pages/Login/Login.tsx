@@ -1,11 +1,9 @@
-import {
-  TextField,
-} from '@mui/material'
+import { TextField } from '@mui/material'
 import React, { useState, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/molecules/Button/Button'
 import { AppAuthContext } from '../App'
-import './Login.scss'
+import styles from './Login.module.scss'
 interface stateType {
   from: { pathname: string }
 }
@@ -15,6 +13,7 @@ const Login: React.FunctionComponent = () => {
   const location = useLocation()
   const from = (location.state as stateType)?.from?.pathname || '/'
 
+  const [error, setError] = useState<Error | null>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -22,13 +21,17 @@ const Login: React.FunctionComponent = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    auth.signIn(email, password, () => navigate(from, { replace: true }))
+    try {
+      auth.signIn(email, password, () => navigate(from, { replace: true }))
+    } catch (error) {
+      setError(error as Error)
+    }
   }
 
   return (
-    <main>
-      <div className="side"></div>
-      <div className="form">
+    <main className={styles.main}>
+      <div className={styles.side}></div>
+      <div className={styles.form}>
         <form onSubmit={handleSubmit}>
           <TextField
             margin="normal"
@@ -52,10 +55,9 @@ const Login: React.FunctionComponent = () => {
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit">
-            Sign In
-          </Button>
+          <Button type="submit">Sign In</Button>
         </form>
+        <div className={styles.error}>{error?.message}</div>
       </div>
     </main>
   )

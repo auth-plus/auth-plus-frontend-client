@@ -2,7 +2,8 @@ import { TextField } from '@mui/material'
 import React, { useState, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/molecules/Button/Button'
-import { AppAuthContext } from '../App'
+import { AuthContext } from '../../contexts/Auth'
+import { SnackbarContext } from '../../contexts/Snackbar'
 import styles from './Login.module.scss'
 interface stateType {
   from: { pathname: string }
@@ -13,18 +14,18 @@ const Login: React.FunctionComponent = () => {
   const location = useLocation()
   const from = (location.state as stateType)?.from?.pathname || '/'
 
-  const [error, setError] = useState<Error | null>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const auth = useContext(AppAuthContext)
+  const auth = useContext(AuthContext)
+  const snackbar = useContext(SnackbarContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       auth.signIn(email, password, () => navigate(from, { replace: true }))
     } catch (error) {
-      setError(error as Error)
+      snackbar.error(error as Error)
     }
   }
 
@@ -57,7 +58,6 @@ const Login: React.FunctionComponent = () => {
           />
           <Button type="submit">Sign In</Button>
         </form>
-        <div className={styles.error}>{error?.message}</div>
       </div>
     </main>
   )

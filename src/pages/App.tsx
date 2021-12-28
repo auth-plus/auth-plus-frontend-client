@@ -1,25 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Layout from '../components/atom/Layout'
-import {
-  readSessionStorage,
-  writeSessionStorage,
-} from '../helpers/sessionStorage'
-import { User } from '../interfaces/user'
-
+import AuthContextCmpnt, { AuthContext } from '../contexts/Auth'
+import SnackbarContextCmpnt from '../contexts/Snackbar'
 import Home from './Home/Home'
 import Login from './Login/Login'
 
-interface AppCtxt {
-  user: User | null
-  signIn: (email: string, password: string, callback: VoidFunction) => void
-  signOut: () => void
-}
-
-export const AppAuthContext = React.createContext<AppCtxt>(null!)
-
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
-  let auth = React.useContext(AppAuthContext)
+  let auth = React.useContext(AuthContext)
   let location = useLocation()
   if (!auth.user) {
     return <Navigate to="/login" state={{ from: location }} />
@@ -28,42 +16,24 @@ const RequireAuth = ({ children }: { children: JSX.Element }) => {
 }
 
 export const App: React.FunctionComponent = () => {
-  const initUSerState = readSessionStorage<User>('user')
-  const [user, setUser] = useState<User | null>(initUSerState)
-  const signIn = (email: string, password: string, callback: VoidFunction) => {
-    if (email === 'a' && password === 'a') {
-      setUser({ id: 'user_id_hash' })
-      writeSessionStorage<User>({ id: 'user_id_hash' }, 'user')
-      callback()
-    }
-    throw new Error("wrong credential")
-  }
-
-  const signOut = () => {
-    writeSessionStorage(null, 'user')
-    setUser(null)
-  }
-  const initState: AppCtxt = {
-    user,
-    signIn,
-    signOut,
-  }
   return (
-    <AppAuthContext.Provider value={initState}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RequireAuth>
-              <Layout>
-                <Home />
-              </Layout>
-            </RequireAuth>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </AppAuthContext.Provider>
+    <AuthContextCmpnt>
+      <SnackbarContextCmpnt>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <Layout>
+                  <Home />
+                </Layout>
+              </RequireAuth>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </SnackbarContextCmpnt>
+    </AuthContextCmpnt>
   )
 }
 

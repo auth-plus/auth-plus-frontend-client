@@ -10,11 +10,11 @@ import {
 import React, { useContext, useState } from 'react'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import MenuIcon from '@mui/icons-material/Menu'
-import { AppAuthContext } from '../../../pages/App';
+import { AuthContext } from '../../../contexts/Auth';
 
 export const Menu: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false)
-  const auth = useContext(AppAuthContext)
+  const auth = useContext(AuthContext)
   return (
     <nav>
       <IconButton

@@ -6,6 +6,7 @@ import {
 } from '../helpers/sessionStorage'
 import { Credential } from '../interfaces/Credential'
 import { MFAChoose } from '../interfaces/MFAChoose'
+import { Strategy } from '../interfaces/Strategy'
 import { User } from '../interfaces/user'
 
 interface AuthCtxt {
@@ -14,8 +15,10 @@ interface AuthCtxt {
     email: string,
     password: string,
     callback: VoidFunction
-  ) => Promise<void>
+  ) => Promise<void | MFAChoose>
   signOut: () => Promise<void>
+  chooseMfa: (hash: string, strategy: Strategy) => Promise<string>
+  mfaCode: (hash: string, code: string, callback: VoidFunction) => Promise<void>
 }
 
 export const AuthContext = React.createContext<AuthCtxt>(null!)
@@ -39,7 +42,7 @@ export const AuthContextCmpnt: React.FunctionComponent = (props) => {
       writeSessionStorage(resp.token, 'jwt')
       callback()
     } else {
-
+      return resp as MFAChoose
     }
   }
 
@@ -49,12 +52,37 @@ export const AuthContextCmpnt: React.FunctionComponent = (props) => {
     setUser(null)
   }
 
+  const chooseMfa = async (hash: string, strategy: Strategy) => {
+    const resp = await request.post<{ hash: string }>('/mfa/choose', {
+      hash,
+      strategy,
+    })
+    return resp.hash
+  }
+
+  const mfaCode = async (
+    hash: string,
+    code: string,
+    callback: VoidFunction
+  ) => {
+    const resp = await request.post<Credential>('/mfa/code', {
+      hash,
+      code,
+    })
+    setUser({ id: resp.id })
+    writeSessionStorage<User>({ id: resp.id }, 'user')
+    writeSessionStorage(resp.token, 'jwt')
+    callback()
+  }
+
   const initState: AuthCtxt = {
     user,
     signIn,
     signOut,
+    chooseMfa,
+    mfaCode,
   }
-  
+
   return (
     <AuthContext.Provider value={initState}>
       {props.children}

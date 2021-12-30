@@ -1,11 +1,13 @@
 import { TextField } from '@mui/material'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/molecules/Button/Button'
 import { AuthContext } from '../../contexts/Auth'
 import { SnackbarContext } from '../../contexts/Snackbar'
+import { MFAChoose } from '../../interfaces/MFAChoose'
 import styles from './Login.module.scss'
-interface stateType {
+import MfaModal from './MfaModal'
+export interface stateType {
   from: { pathname: string }
 }
 
@@ -16,14 +18,26 @@ const Login: React.FunctionComponent = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [mfaChoose, setMfaChoose] = useState<MFAChoose | null>(null)
 
   const auth = useContext(AuthContext)
   const snackbar = useContext(SnackbarContext)
 
+  useEffect(() => {
+    if (auth.user) {
+      navigate(from, { replace: true })
+    }
+  })
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      auth.signIn(email, password, () => navigate(from, { replace: true }))
+      const resp = await auth.signIn(email, password, () =>
+        navigate(from, { replace: true })
+      )
+      if (resp) {
+        setMfaChoose(resp)
+      }
     } catch (error) {
       snackbar.error(error as Error)
     }
@@ -57,6 +71,9 @@ const Login: React.FunctionComponent = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button type="submit">Sign In</Button>
+          {mfaChoose && (
+            <MfaModal mfaChoose={mfaChoose} navigate={navigate} from={from} />
+          )}
         </form>
       </div>
     </main>

@@ -11,16 +11,13 @@ const firebaseConfig = {
   measurementId: 'G-3NMKK0MNEC',
 }
 
-const firebaseApp = initializeApp(firebaseConfig)
+export const firebaseApp = initializeApp(firebaseConfig)
 const messaging = getMessaging(firebaseApp)
+
 export const startFCM = async () => {
-  try {
-    const currentToken = await getToken(messaging, {
-      vapidKey:
-        'BGLR0T2dDTOhWY177RU4hTlIvQlfiPE2CW3DX8EhaDeKxNvNt3_I49oMvauEoX74bOcfj5iLDqoPH4EPUHbCAjY',
-    })
-    console.log(currentToken)
-  } catch (error) {
-    console.error(error)
-  }
+  const currentToken = await getToken(messaging, {
+    vapidKey:
+      'BGLR0T2dDTOhWY177RU4hTlIvQlfiPE2CW3DX8EhaDeKxNvNt3_I49oMvauEoX74bOcfj5iLDqoPH4EPUHbCAjY',
+  })
+  console.log(currentToken)
 }

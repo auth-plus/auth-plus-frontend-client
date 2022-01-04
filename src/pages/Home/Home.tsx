@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import QRcode from '../../components/molecules/QRcode/QRcode'
+import { startFCM } from '../../config/firebase'
 import { request } from '../../helpers/request'
 import { readSessionStorage } from '../../helpers/sessionStorage'
 import { Strategy } from '../../interfaces/Strategy'
@@ -17,6 +18,9 @@ export const Home: React.FunctionComponent = () => {
     })
     setQrcodeUrl(resp.mfaId)
   }
+  useEffect(() => {
+    startFCM().catch((e) => console.error(e))
+  })
   return (
     <>
       <p>HOME</p>

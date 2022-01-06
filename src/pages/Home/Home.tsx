@@ -8,6 +8,31 @@ import { User } from '../../interfaces/user'
 
 export const Home: React.FunctionComponent = () => {
   const [qrcodeUrl, setQrcodeUrl] = useState('')
+  const [deviceId, setDeviceId] = useState('')
+
+  useEffect(() => {
+    startFCM()
+      .then((dvc) => setDeviceId(dvc))
+      .catch((e) => console.error(e))
+  })
+
+  const sendPN = async () => {
+    const requestHeaders: HeadersInit = new Headers()
+    requestHeaders.set('Content-Type', 'application/json')
+    const config: RequestInit = {
+      method: 'POST',
+      headers: requestHeaders,
+
+      body: JSON.stringify({
+        title: 'Title test',
+        deviceId: deviceId,
+        content: 'Content test',
+      }),
+    }
+
+    await fetch('http://localhost:5001/push_notification', config)
+  }
+
   const createGA = async () => {
     const user = readSessionStorage<User>('user')
     if (!user) throw new Error('shoudl exist an user')
@@ -18,14 +43,14 @@ export const Home: React.FunctionComponent = () => {
     })
     setQrcodeUrl(resp.mfaId)
   }
-  useEffect(() => {
-    startFCM().catch((e) => console.error(e))
-  })
+
   return (
     <>
       <p>HOME</p>
       <button onClick={createGA}>Criar GA</button>
       {qrcodeUrl && <QRcode url={qrcodeUrl} />}
+      {deviceId}
+      <button onClick={sendPN}>Send PN</button>
     </>
   )
 }

@@ -19,5 +19,5 @@ export const startFCM = async () => {
     vapidKey:
       'BGLR0T2dDTOhWY177RU4hTlIvQlfiPE2CW3DX8EhaDeKxNvNt3_I49oMvauEoX74bOcfj5iLDqoPH4EPUHbCAjY',
   })
-  console.log(currentToken)
+  return currentToken
 }

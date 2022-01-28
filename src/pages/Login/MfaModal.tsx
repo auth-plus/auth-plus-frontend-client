@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { NavigateFunction } from 'react-router-dom'
-import Modal from '../../components/molecules/Modal/Modal'
+import Modal from '../../components/atom/Modal/Modal'
 import { AuthContext } from '../../contexts/Auth'
 import { SnackbarContext } from '../../contexts/Snackbar'
 import { MFAChoose } from '../../interfaces/MFAChoose'

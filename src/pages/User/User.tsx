@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import QRcode from '../../components/atom/QRcode/QRcode'
 import { startFCM } from '../../config/firebase'
 import { request } from '../../helpers/request'
 import { readSessionStorage } from '../../helpers/sessionStorage'
 import { Strategy } from '../../interfaces/Strategy'
 import { User } from '../../interfaces/user'
 
-export function Home (): JSX.Element  {
+export function UserPage (): JSX.Element  {
+  const [qrcodeUrl, setQrcodeUrl] = useState('')
 
   useEffect(() => {
     startFCM()
@@ -23,11 +25,24 @@ export function Home (): JSX.Element  {
     })
   }
 
+  const createGA = async () => {
+    const user = readSessionStorage<User>('user')
+    if (!user) throw new Error('shoudl exist an user')
+
+    const resp = await request.post<{ mfaId: string }>('/mfa', {
+      userId: user.id,
+      strategy: Strategy.GA,
+    })
+    setQrcodeUrl(resp.mfaId)
+  }
+
   return (
     <>
-      <p>HOME</p>
+      <p>USER</p>
+      <button onClick={createGA}>Criar GA</button>
+      {qrcodeUrl && <QRcode url={qrcodeUrl} />}
     </>
   )
 }
 
-export default Home
+export default UserPage

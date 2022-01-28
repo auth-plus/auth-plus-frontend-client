@@ -1,9 +1,10 @@
-import React from 'react'
 import Footer from './Footer/Footer'
 import Header from './Header/Header'
 import Menu from './Menu/Menu'
-
-export const Layout: React.FunctionComponent = (props) => {
+interface LayoutProps {
+  children: JSX.Element[] | JSX.Element
+}
+export function Layout(props: LayoutProps) {
   return (
     <>
       <Header>

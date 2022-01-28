@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import React, { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Button from '../../components/molecules/Button/Button'
+import Button from '../../components/atom/Button/Button'
 import { AuthContext } from '../../contexts/Auth'
 import { SnackbarContext } from '../../contexts/Snackbar'
 import { MFAChoose } from '../../interfaces/MFAChoose'
@@ -11,7 +11,7 @@ export interface stateType {
   from: { pathname: string }
 }
 
-const Login: React.FunctionComponent = () => {
+function Login(): JSX.Element {
   const navigate = useNavigate()
   const location = useLocation()
   const from = (location.state as stateType)?.from?.pathname || '/'

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Snackbar from '../components/molecules/Snackbar/Snackbar'
+import Snackbar from '../components/atom/Snackbar/Snackbar'
 
 interface SnackbarCtxt {
   info: (msg: string) => void

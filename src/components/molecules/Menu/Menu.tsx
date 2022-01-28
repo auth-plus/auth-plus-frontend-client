@@ -11,24 +11,21 @@ import React, { useContext, useState } from 'react'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HomeIcon from '@mui/icons-material/Home'
 import MenuIcon from '@mui/icons-material/Menu'
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from '@mui/icons-material/Person'
 import { AuthContext } from '../../../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
-
-enum Page {
-  HOME = 'Home',
-  USER = 'User',
-}
+import { PageEnum, PagesObject } from '../../../helpers/routes'
 
 export const Menu: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false)
-  const [page, setPage] = useState<Page>(Page.HOME)
+  const [page, setPage] = useState<PageEnum>(PageEnum.HOME)
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const redirect = (page: Page, url: string) => {
+  const redirect = (page: PageEnum) => {
     setPage(page)
-    navigate(url, { replace: true })
+    navigate(PagesObject[page].url, { replace: true })
+    setOpen((prev) => !prev)
   }
 
   return (
@@ -50,13 +47,13 @@ export const Menu: React.FunctionComponent = () => {
       >
         <Paper sx={{ width: 320, maxWidth: '100%' }}>
           <MenuList>
-            <MenuItem onClick={() => redirect(Page.HOME, '/')}>
+            <MenuItem onClick={() => redirect(PageEnum.HOME)}>
               <ListItemIcon>
                 <HomeIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText>Home</ListItemText>
             </MenuItem>
-            <MenuItem onClick={() => redirect(Page.USER, '/user')}>
+            <MenuItem onClick={() => redirect(PageEnum.USER)}>
               <ListItemIcon>
                 <PersonIcon fontSize="small" />
               </ListItemIcon>

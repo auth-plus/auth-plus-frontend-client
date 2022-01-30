@@ -24,7 +24,7 @@ export const Menu: React.FunctionComponent = () => {
 
   const redirect = (page: PageEnum) => {
     setPage(page)
-    navigate(PagesObject[page].url, { replace: true })
+    navigate(PagesObject[page].url)
     setOpen((prev) => !prev)
   }
 

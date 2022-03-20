@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import Snackbar from '../components/atom/Snackbar/Snackbar'
+import React, { useState, createContext } from 'react'
+
+import { Snackbar } from '../components/atom/Snackbar/Snackbar'
 
 interface SnackbarCtxt {
   info: (msg: string) => void
@@ -7,7 +8,7 @@ interface SnackbarCtxt {
   error: (err: Error) => void
 }
 
-export const SnackbarContext = React.createContext<SnackbarCtxt>(null!)
+export const SnackbarContext = createContext<SnackbarCtxt>(null!)
 
 export const SnackbarContextCmpnt: React.FunctionComponent = (props) => {
   const [type, setType] = useState<string | null>(null)
@@ -23,7 +24,6 @@ export const SnackbarContextCmpnt: React.FunctionComponent = (props) => {
     setType('warn')
     setContent(msg)
     setOpen(true)
-
   }
   const error = (err: Error): void => {
     setType('error')
@@ -48,5 +48,3 @@ export const SnackbarContextCmpnt: React.FunctionComponent = (props) => {
     </SnackbarContext.Provider>
   )
 }
-
-export default SnackbarContextCmpnt

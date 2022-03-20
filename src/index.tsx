@@ -1,12 +1,13 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './pages/App'
-import reportWebVitals from './reportWebVitals'
+import { render } from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+
+import { App } from './pages/App'
+import reportWebVitals from './reportWebVitals'
 import { register } from './serviceWorkerRegistration'
 import './index.scss'
 
-ReactDOM.render(
+render(
   <React.StrictMode>
     <BrowserRouter>
       <App />

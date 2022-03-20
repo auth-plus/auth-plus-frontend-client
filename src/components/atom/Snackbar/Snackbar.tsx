@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import styles from './Snackbar.module.scss'
 
 interface SnackbarProps {
@@ -23,7 +24,7 @@ export const Snackbar: React.FunctionComponent<SnackbarProps> = (
   }
 
   const [internalOpen, setInternalOpen] = useState(open)
-  
+
   useEffect(() => {
     setTimeout(() => {
       setInternalOpen(false)
@@ -41,5 +42,3 @@ export const Snackbar: React.FunctionComponent<SnackbarProps> = (
     return <></>
   }
 }
-
-export default Snackbar

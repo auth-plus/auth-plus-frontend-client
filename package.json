@@ -16,7 +16,6 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
-    "sass": "^1.45.1",
     "typescript": "^4.5.2",
     "web-vitals": "^2.1.4"
   },
@@ -24,7 +23,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write ./src/**/*.scss --parser scss && prettier --write ./src/**/*.{ts,tsx}",
+    "lint": "eslint './src/**/*.{tsx,ts}'",
+    "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -60,8 +62,15 @@
     "@types/qrcode": "^1.4.1",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-sonarjs": "^0.12.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.3",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "sass": "^1.49.9"
   }
 }

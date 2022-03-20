@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
+
 import { request } from '../helpers/request'
 import {
   readSessionStorage,
@@ -21,7 +22,7 @@ interface AuthCtxt {
   mfaCode: (hash: string, code: string, callback: VoidFunction) => Promise<void>
 }
 
-export const AuthContext = React.createContext<AuthCtxt>(null!)
+export const AuthContext = createContext<AuthCtxt>(null!)
 
 export const AuthContextCmpnt: React.FunctionComponent = (props) => {
   const initUSerState = readSessionStorage<User>('user')
@@ -89,5 +90,3 @@ export const AuthContextCmpnt: React.FunctionComponent = (props) => {
     </AuthContext.Provider>
   )
 }
-
-export default AuthContextCmpnt

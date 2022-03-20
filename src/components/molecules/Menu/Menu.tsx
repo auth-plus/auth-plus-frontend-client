@@ -1,3 +1,7 @@
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import HomeIcon from '@mui/icons-material/Home'
+import MenuIcon from '@mui/icons-material/Menu'
+import PersonIcon from '@mui/icons-material/Person'
 import {
   Drawer,
   IconButton,
@@ -8,12 +12,9 @@ import {
   Paper,
 } from '@mui/material'
 import React, { useContext, useState } from 'react'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import HomeIcon from '@mui/icons-material/Home'
-import MenuIcon from '@mui/icons-material/Menu'
-import PersonIcon from '@mui/icons-material/Person'
-import { AuthContext } from '../../../contexts/Auth'
 import { useNavigate } from 'react-router-dom'
+
+import { AuthContext } from '../../../contexts/Auth'
 import { PageEnum, PagesObject } from '../../../helpers/routes'
 
 export const Menu: React.FunctionComponent = () => {
@@ -76,5 +77,3 @@ export const Menu: React.FunctionComponent = () => {
     </nav>
   )
 }
-
-export default Menu

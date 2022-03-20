@@ -15,9 +15,8 @@ export const firebaseApp = initializeApp(firebaseConfig)
 const messaging = getMessaging(firebaseApp)
 
 export const startFCM = async () => {
-  const currentToken = await getToken(messaging, {
+  return await getToken(messaging, {
     vapidKey:
       'BGLR0T2dDTOhWY177RU4hTlIvQlfiPE2CW3DX8EhaDeKxNvNt3_I49oMvauEoX74bOcfj5iLDqoPH4EPUHbCAjY',
   })
-  return currentToken
 }

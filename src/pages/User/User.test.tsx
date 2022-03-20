@@ -1,6 +1,7 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
-import UserPage from './User'
+import React from 'react'
+
+import { UserPage } from './User'
 
 test('renders learn react link', () => {
   render(<UserPage />)

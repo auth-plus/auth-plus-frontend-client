@@ -5,9 +5,7 @@ export const Header: React.FunctionComponent = (props) => {
   return (
     <header>
       <AppBar position="static">
-        <Toolbar>
-          {props.children}
-        </Toolbar>
+        <Toolbar>{props.children}</Toolbar>
       </AppBar>
     </header>
   )

@@ -12,10 +12,12 @@ export const Button: React.FunctionComponent<ButtonProps> = (
   props: ButtonProps
 ) => {
   return (
-    <button disabled={props.disabled} className={styles.button} type={props.type ?? 'button'}>
+    <button
+      disabled={props.disabled}
+      className={styles.button}
+      type={props.type ?? 'button'}
+    >
       {props.children}
     </button>
   )
 }
-
-export default Button

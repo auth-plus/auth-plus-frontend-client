@@ -1,14 +1,14 @@
-import Home from '../pages/Home/Home'
-
+import { useContext } from 'react'
 import { Navigate, Outlet, RouteObject, useLocation } from 'react-router-dom'
-import React from 'react'
+
+import { Layout } from '../components/molecules/Layout'
 import { AuthContext } from '../contexts/Auth'
-import Login from '../pages/Login/Login'
-import Layout from '../components/molecules/Layout'
-import UserPage from '../pages/User/User'
+import { Home } from '../pages/Home/Home'
+import { Login } from '../pages/Login/Login'
+import { UserPage } from '../pages/User/User'
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
-  const auth = React.useContext(AuthContext)
+  const auth = useContext(AuthContext)
   const location = useLocation()
   if (!auth.user) {
     return <Navigate to="/login" state={{ from: location }} />

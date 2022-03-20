@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react'
+
+import styles from './Footer.module.scss'
 
 export const Footer: React.FunctionComponent = () => {
   return (
-    <footer>
-      <span>FOOTER</span>
+    <footer className={styles.Footer}>
+      <span>Auth+™</span>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

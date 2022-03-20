@@ -1,17 +1,19 @@
 import { TextField } from '@mui/material'
 import React, { useState, useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Button from '../../components/atom/Button/Button'
+
+import { Button } from '../../components/atom/Button/Button'
 import { AuthContext } from '../../contexts/Auth'
 import { SnackbarContext } from '../../contexts/Snackbar'
 import { MFAChoose } from '../../interfaces/MFAChoose'
+
 import styles from './Login.module.scss'
-import MfaModal from './MfaModal'
+import { MfaModal } from './MfaModal'
 export interface stateType {
   from: { pathname: string }
 }
 
-function Login(): JSX.Element {
+export function Login(): JSX.Element {
   const navigate = useNavigate()
   const location = useLocation()
   const from = (location.state as stateType)?.from?.pathname || '/'
@@ -25,16 +27,14 @@ function Login(): JSX.Element {
 
   useEffect(() => {
     if (auth.user) {
-      navigate(from, { replace: true })
+      navigate(from)
     }
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const resp = await auth.signIn(email, password, () =>
-        navigate(from, { replace: true })
-      )
+      const resp = await auth.signIn(email, password, () => navigate(from))
       if (resp) {
         setMfaChoose(resp)
       }
@@ -79,5 +79,3 @@ function Login(): JSX.Element {
     </main>
   )
 }
-
-export default Login

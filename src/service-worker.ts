@@ -43,12 +43,8 @@ registerRoute(
 
     // If this looks like a URL for a resource, because it contains
     // a file extension, skip.
-    if (url.pathname.match(fileExtensionRegexp)) {
-      return false
-    }
-
     // Return true to signal that we want to use the handler.
-    return true
+    return !url.pathname.match(fileExtensionRegexp)
   },
   createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
 )

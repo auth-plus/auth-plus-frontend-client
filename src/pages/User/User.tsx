@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import QRcode from '../../components/atom/QRcode/QRcode'
+
+import { QRcode } from '../../components/atom/QRcode/QRcode'
 import { startFCM } from '../../config/firebase'
 import { request } from '../../helpers/request'
 import { readSessionStorage } from '../../helpers/sessionStorage'
 import { Strategy } from '../../interfaces/Strategy'
 import { User } from '../../interfaces/user'
 
-export function UserPage (): JSX.Element  {
+export function UserPage(): JSX.Element {
   const [qrcodeUrl, setQrcodeUrl] = useState('')
 
   useEffect(() => {
@@ -18,8 +19,7 @@ export function UserPage (): JSX.Element  {
   const setDeviceId = async (dvc: string) => {
     const user = readSessionStorage<User>('user')
     if (!user) throw new Error('shoudl exist an user')
-
-    await request.patch<{ mfaId: string }>('/user', {
+    ;(await request.patch)<{ mfaId: string }>('/user', {
       userId: user.id,
       strategy: Strategy.GA,
     })
@@ -44,5 +44,3 @@ export function UserPage (): JSX.Element  {
     </>
   )
 }
-
-export default UserPage
